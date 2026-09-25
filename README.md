@@ -93,7 +93,9 @@ If $\kappa > 100$, the system approaches ill-conditioned control mapping. Rather
 ### 4. Boundary Gradient Stress Testing via $\epsilon$-Nudge Perturbation
 To verify the structural stability of the gradient matrix $\nabla h(\mathbf{x}) = \frac{\partial h}{\partial \mathbf{x}}$ independently before coupling it with system vector fields $f(\mathbf{x})$ and $g(\mathbf{x})$, the code executes an $\epsilon$-nudge perturbation test:
 1. A small virtual displacement vector ($\epsilon \approx 10^{-5}$) is applied along the gradient normal: $\mathbf{x}_{\text{perturbed}} = \mathbf{x} + \epsilon \cdot \frac{\nabla h^T}{\Vert{}\nabla h\Vert{}}$.
-2. The non-linear barrier $h(\mathbf{x}_{\text{perturbed}})$ is compared against its linear Taylor series approximation $h(\mathbf{x}) + \nabla h \cdot (\mathbf{x}_{\text{perturbed}} - \mathbf{x})$.
+2. The non-linear barrier function at a perturbed state $\mathbf{x}_{\text{pert}}$ is compared against its first-order linear Taylor series expansion around $\mathbf{x}$:
+
+$$h(\mathbf{x}_{\text{pert}}) \approx h(\mathbf{x}) + \nabla h(\mathbf{x})^T (\mathbf{x}_{\text{pert}} - \mathbf{x})$$
 
 Residual errors above $10^{-8}$ trigger non-linearity warnings, verifying local geometric smoothness before online optimization.
 
