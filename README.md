@@ -55,6 +55,13 @@ $$V(\mathbf{x}) = \mathbf{x}^T \mathbf{P} \mathbf{x}$$
 
 $$\dot{V}(\mathbf{x}) = 2 \mathbf{x}^T \mathbf{P} (\mathbf{A}\mathbf{x} + \mathbf{B} u)$$
 
+### Control Lyapunov Function (CLF) Negative Definiteness
+To ensure asymptotic stability, the temporal derivative of the Control Lyapunov Function must remain strictly negative along the system trajectories:
+
+$$\dot{V}(\mathbf{x}) = 2 \mathbf{x}^T \mathbf{P} (\mathbf{A}\mathbf{x} + \mathbf{B} u) < 0 \quad \forall \, \mathbf{x} \neq \mathbf{0}$$
+
+If $\dot{V}(\mathbf{x}) \ge 0$, the controller fails to dissipate system energy rapidly enough, allowing the unmodeled non-linear kinetics and open-loop thermal runaway modes to override closed-loop dynamics and destabilize the reactor.
+
 ### Equilibrium-Ellipsoid Safety Set (CBF)
 Following Nagumo's theorem, the safe set $\mathcal{C}$ and control barrier function $h(\mathbf{x})$ form a permanent geometric cage built around the equilibrium origin ($\mathbf{x}_e = \mathbf{0}$):
 
