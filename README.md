@@ -106,12 +106,13 @@ To assess internal state observability vulnerabilities and drift sensitivity, th
 
 ## Architectural Rationale: Pure CLF-CBF in CSTR Applications
 
-In a low-dimensional Continuous Stirred-Tank Reactor (CSTR) with simple kinetics, a pure CLF-CBF controller is highly feasible without requiring a nominal baseline controller. Unlike robotics (which suffers from non-convex physical obstacles and multi-stage path planning), CSTRs benefit from:
+In a low-dimensional Continuous Stirred-Tank Reactor (CSTR) with simple kinetics, a pure CLF-CBF controller is highly feasible without requiring a nominal baseline controller. Unlike robotics (which suffers from non-convex physical obstacles and multi-stage path planning), this simplified case CSTR benefits from:
 
 * **Trivial Safety Geometry:** Safety boundaries are static, decoupled box limits ($T_{\min}, T_{\max}, C_{A,\min}, C_{A,\max}$).
 * **Thermodynamic Alignment:** Kinetic coupling means driving the system toward steady state (CLF) naturally aligns with keeping temperature bounded (CBF).
 * **Ultra-Low Solver Overhead:** A 2-state, 1-input system leads to a minimal QP that can be solved analytically or via microsecond-level explicit calculations.
 * **Thin Boundary Layers:** High control authority allows the system to operate close to operational limits without triggering conservative, system-stalling actions.
+* **Simplified Reaction Kinetics:** A critical assumption in this formulation is the simplification of reaction kinetics (e.g., first-order, single-reactant Arrhenius steps). In chemical processes, unmodeled complex or multi-stage reaction kinetics represent a substantially greater source of non-linearity than even boundary layer effects or spatial geometry, making kinetic simplification a prerequisite for clean CLF-CBF synthesis.
 
 ---
 
