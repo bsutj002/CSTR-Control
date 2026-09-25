@@ -9,7 +9,7 @@ A Python-based framework for extracting nominal linear models, evaluating Contro
 The framework provides an end-to-end control and system identification pipeline:
 
 * **Dynamic Simulation:** Simulates the non-linear coupled mass and energy dynamics of a CSTR.
-* **Ground Truth Matrix Extraction:** Stacks state $\mathbf{X}$ and control $\mathbf{U}$ snapshots into an augmented matrix representation to extract local linear state-space ground truth matrices $(\mathbf{A}_{\text{nominal}}, \mathbf{B}_{\text{nominal}})$ using linear regression (Moore-Penrose pseudoinverse).
+* **Ground Truth Matrix Extraction:** Stacks state X and control U snapshots into an augmented matrix representation to extract local linear state-space ground truth matrices of the linear state-space model Ax + Bu using by augmenting the state and control matrices, appending them with the matrix representing the vector field of the system manifold xdot, and solving for the Moore-Penrose pseudoinverse.
 * **Control Lyapunov Function (CLF) Synthesis:** Models energy decay and tracks performance stability using the Continuous-Time Algebraic Lyapunov Equation (CALE).
 * **Control Barrier Function (CBF) & Lie Derivative Auditing:** Constructs equilibrium-centered safety cages using Nagumo's theorem and evaluates scalar drift ($L_f h$), actuator leverage ($L_g h$), boundary variance projections, and gradient stability.
 * **Pure CLF-CBF QP Controller Integration (Active Work):** Synthesizes a unified Quadratic Program (QP) to act as the primary real-time controller without relying on a nominal baseline control law.
@@ -71,7 +71,7 @@ $$L_g h = \nabla h(\mathbf{x}) g(\mathbf{x}) = -2 \mathbf{x}^T \mathbf{P} \mathb
 
 ---
 
-## Advanced Auditing & Structural Analysis
+## Structural Analysis of Lie Derivatives
 
 ### 1. Independent Lie Derivative Component Audits ($L_f h$ vs. $L_g h$)
 The codebase explicitly decouples the Lie derivative calculation into $f(x)$ (unforced drift) and $g(x)$ (actuator mapping) components to perform independent physical audits:
@@ -104,7 +104,7 @@ To assess internal state observability vulnerabilities and drift sensitivity, th
 
 ---
 
-## Architectural Rationale: Pure CLF-CBF in CSTR Applications
+## Architectural Assumptions: Pure CLF-CBF (No Nominal Controller) in CSTR Applications
 
 In a low-dimensional Continuous Stirred-Tank Reactor (CSTR) with simple kinetics, a pure CLF-CBF controller is highly feasible without requiring a nominal baseline controller. Unlike robotics (which suffers from non-convex physical obstacles and multi-stage path planning), this simplified case CSTR benefits from:
 
