@@ -62,8 +62,12 @@ $$\dot{V}(\mathbf{x}) = 2 \mathbf{x}^T \mathbf{P} (\mathbf{A}\mathbf{x} + \mathb
 
 If $\dot{V}(\mathbf{x}) \ge 0$, the controller fails to dissipate system energy rapidly enough, allowing the unmodeled non-linear kinetics and open-loop thermal runaway modes to override closed-loop dynamics and destabilize the reactor.
 
-### Equilibrium-Ellipsoid Safety Set (CBF)
-Following Nagumo's theorem, the safe set $\mathcal{C}$ and control barrier function $h(\mathbf{x})$ form a permanent geometric cage built around the equilibrium origin ($\mathbf{x}_e = \mathbf{0}$):
+### Equilibrium-Ellipsoid Safety Set (CBF) & Nagumo's Theorem
+Following Nagumo's theorem, invariance of the safe set $\mathcal{C}$ is guaranteed if the tangent vector field points inward or along the boundary at all points where the barrier function equals zero. For a Control Barrier Function $h(\mathbf{x})$ defining the safe set $\mathcal{C} = \{ \mathbf{x} \in \mathbb{R}^n : h(\mathbf{x}) \ge 0 \}$, Nagumo's theorem requires that there exists an extended class-$\mathcal{K}$ function $\alpha$ for all states of x in the safe set such that:
+
+$$\dot{h}(\mathbf{x}) \ge -\alpha(h(\mathbf{x}))$$
+
+Applying this to the equilibrium-centered safety cage built around the origin ($\mathbf{x}_e = \mathbf{0}$):
 
 $$\mathcal{C} = \{ \mathbf{x} \in \mathbb{R}^n : \mathbf{x}^T \mathbf{P} \mathbf{x} \le \delta^2 \}$$
 
@@ -138,3 +142,10 @@ $$\text{s.t. } \quad L_f V(\mathbf{x}) + L_g V(\mathbf{x})u + c_1 V(\mathbf{x}) 
 $$L_f h(\mathbf{x}) + L_g h(\mathbf{x})u + \alpha(h(\mathbf{x})) \ge 0 \quad \text{(CBF Hard Safety Constraint)}$$
 
 $$u_{\min} \le u \le u_{\max} \quad \text{(Actuator Saturation Limits)}$$
+
+---
+
+## Future Work
+
+* **Lipschitz Continuity Bounds.** Given the maximum residual error between true non-linear CSTR equations and $Ax + Bu$ model over a bounded region, a formal Region of Attraction (RoA) can be computed. Lyapunov theory $V(x)$ is then used to define an invariant sublevel set where the controller guarantees the states will never cross into the "danger zone" where the linear approximation fails.
+* **Input-to-State Stability (ISS) Lyapunov functions:** For an unstable linear system, an open-loop pole with $\text{Re}(\lambda) > 0$ means errors amplify. An ISS proof mathematically guarantees that stabilizing feedback gain $K$ (where $u = Kx$) provides enough damping to overcome the positive eigenvalues, ensuring that bounded data/sensor errors result in bounded, predictable state tracking errors rather than infinite divergence.
